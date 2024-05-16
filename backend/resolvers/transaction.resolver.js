@@ -24,7 +24,7 @@ const transactionResolver = {
         }
       }
     },
-    Mutations :{
+    Mutation :{
         createTransaction :async(_,{input},context)=>{
             try {
                 const newTransaction  = new Transaction({
