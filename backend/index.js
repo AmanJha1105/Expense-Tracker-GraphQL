@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import cors from 'cors';
 import express from 'express';
 import http from 'http';
+import { connectDB } from "./db/connectDB.js";
 
 dotenv.config();
 const app = express();
@@ -38,5 +39,6 @@ app.use(
   
   // Modified server startup
   await new Promise((resolve) => httpServer.listen({ port: 4000 }, resolve));
-  
+  await connectDB();
+
   console.log(`🚀 Server ready at http://localhost:4000/`);
