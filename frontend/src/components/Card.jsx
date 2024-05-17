@@ -28,6 +28,8 @@ const Card = ({ transaction }) => {
 
 	description = description[0]?.toUpperCase()+description.slice(1);
 	category = category[0]?.toUpperCase()+category.slice(1);
+	paymentType = paymentType[0]?.toUpperCase() + paymentType.slice(1);
+
     const formattedDate = formatDate(date);
 
 	const handleDelete =async()=>{
@@ -35,7 +37,7 @@ const Card = ({ transaction }) => {
 			await deleteTransaction({variables: {transactionId: transaction._id}});
 			toast.success("Transaction deleted successfully");
 		} catch (error) {
-			toast
+			toast.error(error.message);
 		}
 	}
 
@@ -48,7 +50,7 @@ const Card = ({ transaction }) => {
 					<div className='flex items-center gap-2'>
 						{!loading && <FaTrash className={"cursor-pointer"} onClick={handleDelete}/>}
 						{loading && <div className='w-6 h-6 border-t-2 border-b-2  rounded-full animate-spin'></div>}
-						<Link to={`/transaction/123`}>
+						<Link to={`/transaction/${transaction._id}`}>
 							<HiPencilAlt className='cursor-pointer' size={20} />
 						</Link>
 					</div>
