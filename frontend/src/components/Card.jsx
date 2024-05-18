@@ -18,6 +18,8 @@ const categoryColorMap = {
 };
 
 const Card = ({ transaction,authUser }) => {
+	console.log("AUTHUSER IN CARD",authUser);
+	
 	let{category,amount,location,date,paymentType,description} = transaction;
 
 	const cardClass = categoryColorMap[category];
