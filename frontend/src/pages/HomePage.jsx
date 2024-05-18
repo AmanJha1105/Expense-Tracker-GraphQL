@@ -20,6 +20,10 @@ const HomePage = () => {
 
 	const { data: authUserData } = useQuery(GET_AUTHENTICATED_USER);
 
+	const[logout,{loading,client}]=useMutation(LOGOUT,{
+		refetchQueries:["GetAuthenticatedUser"],
+	});
+
 	const [chartData, setChartData] = useState({
 		labels: [],
 		datasets: [
@@ -38,8 +42,8 @@ const HomePage = () => {
 
 	useEffect(() => {
 		if (data?.categoryStatistics) {
-			const categories = data.categoryStatistics.map((stat) => stat.category);
-			const totalAmounts = data.categoryStatistics.map((stat) => stat.totalAmount);
+			const categories = data?.categoryStatistics.map((stat) => stat.category);
+			const totalAmounts = data?.categoryStatistics.map((stat) => stat.totalAmount);
 
 			const backgroundColors = [];
 			const borderColors = [];
@@ -70,11 +74,6 @@ const HomePage = () => {
 			}));
 		}
 	}, [data]);
-
-
-	const[logout,{loading,client}]=useMutation(LOGOUT,{
-		refetchQueries:["GetAuthenticatedUser"],
-	});
 
 	const handleLogout = async() => {
 		try {
