@@ -5,9 +5,8 @@ import { GET_AUTHENTICATED_USER, GET_USER_AND_TRANSACTIONS } from "../graphql/qu
 import { useEffect } from "react";
 
 const Cards = () => {
-	
-	useEffect(()=>{
-		const { data, loading } = useQuery(GET_TRANSACTIONS);
+
+	const { data, loading } = useQuery(GET_TRANSACTIONS);
     const { data: authUser } = useQuery(GET_AUTHENTICATED_USER);
 
 	const { data: userAndTransactions } = useQuery(GET_USER_AND_TRANSACTIONS, {
@@ -19,7 +18,10 @@ const Cards = () => {
 	console.log("userAndTransactions:", userAndTransactions);
 
 	console.log("cards:", data.transactions);
-	},[]);
+	
+	useEffect(()=>{
+		data.transactions=data.transactions
+	},[data])
 
 	// TODO => ADD RELATIONSHIPS
 	return (
