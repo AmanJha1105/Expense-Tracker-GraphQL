@@ -15,14 +15,12 @@ const Cards = () => {
 		},
 	});
 
+	console.log("auth user",authUser);
+
 	console.log("userAndTransactions:", userAndTransactions);
 
-	console.log("cards:", data.transactions);
+	console.log("cards:",transactions);
 	
-	useEffect(()=>{
-		data.transactions=data.transactions
-	},[data])
-
 	// TODO => ADD RELATIONSHIPS
 	return (
 		<div className='w-full px-10 min-h-[40vh]'>
