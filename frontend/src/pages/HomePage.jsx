@@ -8,7 +8,7 @@ import { MdLogout } from "react-icons/md";
 import toast from "react-hot-toast";
 import { useMutation, useQuery } from "@apollo/client";
 import { LOGOUT } from "../graphql/mutations/user.mutation";
-import { GET_TRANSACTION_STATISTICS } from "../graphql/queries/transaction.query";
+import { GET_TRANSACTIONS, GET_TRANSACTION_STATISTICS } from "../graphql/queries/transaction.query";
 import { useEffect, useState } from "react";
 import { GET_AUTHENTICATED_USER, GET_USER_AND_TRANSACTIONS } from "../graphql/queries/user.query";
 import { Navigate } from "react-router-dom";
@@ -21,15 +21,19 @@ const HomePage = () => {
 
 	const { data: authUserData } = useQuery(GET_AUTHENTICATED_USER);
 
-	const { data: userAndTransactions } = useQuery(GET_USER_AND_TRANSACTIONS, {
-		variables: {
-			userId: authUserData?.authUser?._id,
-		},
-	});
+	const { data:trandata, loading:tranloading } = useQuery(GET_TRANSACTIONS);
+
+	// const { data: userAndTransactions } = useQuery(GET_USER_AND_TRANSACTIONS, {
+	// 	variables: {
+	// 		userId: authUserData?.authUser?._id,
+	// 	},
+	// });
 
 	const[logout,{loading,client}]=useMutation(LOGOUT,{
 		refetchQueries:["GetAuthenticatedUser"],
 	});
+
+	const [transactiondata,setTransactionData] = useState({});
 
 	const [chartData, setChartData] = useState({
 		labels: [],
@@ -67,6 +71,10 @@ const HomePage = () => {
 					borderColors.push("rgba(54, 162, 235)");
 				}
 			});
+
+			if(trandata?.transactions){
+				setTransactionData(trandata.transactions);
+			}
 
 			setChartData((prev) => ({
 				labels: categories,
@@ -118,7 +126,7 @@ const HomePage = () => {
 
 					<TransactionForm />
 				</div>
-				<Cards  userAndTransactions={userAndTransactions}/>
+				<Cards  transactiondata={transactiondata}/>
 			</div>
 		</>
 	);
