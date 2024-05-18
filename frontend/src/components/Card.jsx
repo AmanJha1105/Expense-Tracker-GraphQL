@@ -4,7 +4,7 @@ import { MdOutlinePayments } from "react-icons/md";
 import { FaSackDollar } from "react-icons/fa6";
 import { FaTrash } from "react-icons/fa";
 import { HiPencilAlt } from "react-icons/hi";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { formatDate } from "../utils/formatDate.js";
 import toast from "react-hot-toast";
 import { useMutation } from "@apollo/client";
@@ -19,7 +19,7 @@ const categoryColorMap = {
 
 const Card = ({ transaction,authUser }) => {
 	console.log("AUTHUSER IN CARD",authUser);
-	
+
 	let{category,amount,location,date,paymentType,description} = transaction;
 
 	const cardClass = categoryColorMap[category];
@@ -43,7 +43,7 @@ const Card = ({ transaction,authUser }) => {
 		}
 	}
 
-
+    if(!transaction)<Navigate to="/"/>;
 	return (
 		<div className={`rounded-md p-4 bg-gradient-to-br ${cardClass}`}>
 			<div className='flex flex-col gap-3'>
