@@ -23,7 +23,7 @@ const Cards = ({transactiondata}) => {
 
 	useEffect(() => {
 		
-		if(data?.transactions.length=== 0)
+		if(data?.transactions?.length=== 0)
 			 var timerID= setInterval(() => Cards(), 1000);
 	 
 		return () => clearInterval(timerID);
