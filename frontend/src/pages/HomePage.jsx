@@ -23,7 +23,7 @@ const HomePage = () => {
 
 	const { data: userAndTransactions } = useQuery(GET_USER_AND_TRANSACTIONS, {
 		variables: {
-			userId: authUser?.authUser?._id,
+			userId: authUserData?.authUser?._id,
 		},
 	});
 
