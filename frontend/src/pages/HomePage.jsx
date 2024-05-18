@@ -11,6 +11,7 @@ import { LOGOUT } from "../graphql/mutations/user.mutation";
 import { GET_TRANSACTION_STATISTICS } from "../graphql/queries/transaction.query";
 import { useEffect, useState } from "react";
 import { GET_AUTHENTICATED_USER } from "../graphql/queries/user.query";
+import { Navigate } from "react-router-dom";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -80,6 +81,7 @@ const HomePage = () => {
 			await logout();
 			//Clear the Apollo Client cache from the DOCS
 			client.resetStore();
+			<Navigate to="/login"/>
 		} catch (error) {
 			console.error("Error:",error);
 			toast.error(error.message);
