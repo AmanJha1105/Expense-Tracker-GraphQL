@@ -2,9 +2,12 @@ import { useQuery } from "@apollo/client";
 import Card from "./Card";
 import { GET_TRANSACTIONS } from "../graphql/queries/transaction.query.js";
 import { GET_AUTHENTICATED_USER, GET_USER_AND_TRANSACTIONS } from "../graphql/queries/user.query.js";
+import { useEffect } from "react";
 
 const Cards = () => {
-	const { data, loading } = useQuery(GET_TRANSACTIONS);
+	
+	useEffect(()=>{
+		const { data, loading } = useQuery(GET_TRANSACTIONS);
     const { data: authUser } = useQuery(GET_AUTHENTICATED_USER);
 
 	const { data: userAndTransactions } = useQuery(GET_USER_AND_TRANSACTIONS, {
@@ -15,7 +18,8 @@ const Cards = () => {
 
 	console.log("userAndTransactions:", userAndTransactions);
 
-	console.log("cards:", data);
+	console.log("cards:", data.transactions);
+	},[]);
 
 	// TODO => ADD RELATIONSHIPS
 	return (
