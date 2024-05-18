@@ -10,7 +10,7 @@ import { useMutation, useQuery } from "@apollo/client";
 import { LOGOUT } from "../graphql/mutations/user.mutation";
 import { GET_TRANSACTION_STATISTICS } from "../graphql/queries/transaction.query";
 import { useEffect, useState } from "react";
-import { GET_AUTHENTICATED_USER } from "../graphql/queries/user.query";
+import { GET_AUTHENTICATED_USER, GET_USER_AND_TRANSACTIONS } from "../graphql/queries/user.query";
 import { Navigate } from "react-router-dom";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -20,6 +20,12 @@ const HomePage = () => {
 	const { data } = useQuery(GET_TRANSACTION_STATISTICS);
 
 	const { data: authUserData } = useQuery(GET_AUTHENTICATED_USER);
+
+	const { data: userAndTransactions } = useQuery(GET_USER_AND_TRANSACTIONS, {
+		variables: {
+			userId: authUser?.authUser?._id,
+		},
+	});
 
 	const[logout,{loading,client}]=useMutation(LOGOUT,{
 		refetchQueries:["GetAuthenticatedUser"],
@@ -112,7 +118,7 @@ const HomePage = () => {
 
 					<TransactionForm />
 				</div>
-				<Cards />
+				<Cards  userAndTransactions={userAndTransactions}/>
 			</div>
 		</>
 	);
