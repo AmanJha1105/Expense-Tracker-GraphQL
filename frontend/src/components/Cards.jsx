@@ -16,7 +16,7 @@ const Cards = ({transactiondata}) => {
 
 	console.log("auth user",authUser);
 
-	console.log("userAndTransactions:", userAndTransactions);
+	// console.log("userAndTransactions:", userAndTransactions);
 
 	console.log("cards:",data);
 	
