@@ -2,7 +2,6 @@ import { useQuery } from "@apollo/client";
 import Card from "./Card";
 import { GET_TRANSACTIONS } from "../graphql/queries/transaction.query.js";
 import { GET_AUTHENTICATED_USER, GET_USER_AND_TRANSACTIONS } from "../graphql/queries/user.query.js";
-import { useEffect } from "react";
 
 const Cards = () => {
 
