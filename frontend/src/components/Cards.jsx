@@ -19,6 +19,14 @@ const Cards = ({transactiondata}) => {
 	// console.log("userAndTransactions:", userAndTransactions);
 
 	console.log("cards:",data);
+
+	useEffect(() => {
+		
+		if(data?.transactions.length=== 0)
+			 timerID= setInterval(() => Cards(), 1000);
+	 
+		return () => clearInterval(timerID);
+	  });
 	
 	// TODO => ADD RELATIONSHIPS
 	return (
