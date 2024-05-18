@@ -15,10 +15,13 @@ import { configurePassport } from "./passport/passport.config.js";
 
 import mergedResolvers from "./resolvers/index.js";
 import mergedTypeDefs from "./typeDefs/index.js";
+import path from "path";
 
 dotenv.config();
 configurePassport();
 const app = express();
+
+const __dirname = path.resolve();
 
 const httpServer = http.createServer(app);
 
@@ -67,6 +70,13 @@ app.use(
       context: async ({ req,res }) => buildContext({req,res}),
     }),
   );
+
+  //npm run build will build your frontend application and it will be optimized version of your app
+  app.use(express.static(path.join(__dirname,"frontend/dist")));
+
+  app.get("*",(req,res)=>{
+    res.sendFile(path.join(__dirname,"frontend/dist","index.html"));
+  })
   
   // Modified server startup
   await new Promise((resolve) => httpServer.listen({ port: 4000 }, resolve));
