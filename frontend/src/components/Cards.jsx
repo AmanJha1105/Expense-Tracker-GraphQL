@@ -1,34 +1,22 @@
 import { useQuery } from "@apollo/client";
 import Card from "./Card";
-import { GET_TRANSACTIONS } from "../graphql/queries/transaction.query.js";
-import { GET_AUTHENTICATED_USER, GET_USER_AND_TRANSACTIONS } from "../graphql/queries/user.query.js";
-import { useEffect } from "react";
+import { GET_TRANSACTIONS } from "../graphql/queries/transaction.query";
+import { GET_AUTHENTICATED_USER, GET_USER_AND_TRANSACTIONS } from "../graphql/queries/user.query";
 
-const Cards = ({transactiondata}) => {
-
+const Cards = () => {
 	const { data, loading } = useQuery(GET_TRANSACTIONS);
-    const { data: authUser } = useQuery(GET_AUTHENTICATED_USER);
+	const { data: authUser } = useQuery(GET_AUTHENTICATED_USER);
 
-	// const { data: userAndTransactions } = useQuery(GET_USER_AND_TRANSACTIONS, {
-	// 	variables: {
-	// 		userId: authUser?.authUser?._id,
-	// 	},
-	// });
+	const { data: userAndTransactions } = useQuery(GET_USER_AND_TRANSACTIONS, {
+		variables: {
+			userId: authUser?.authUser?._id,
+		},
+	});
 
-	console.log("auth user",authUser);
-    console.log(transactiondata);
-	// console.log("userAndTransactions:", userAndTransactions);
+	console.log("userAndTransactions:", userAndTransactions);
 
-	console.log("cards:",data);
+	console.log("cards:", data);
 
-	useEffect(() => {
-		
-		if(data?.transactions?.length=== 0)
-			 var timerID= setInterval(() => Cards(), 1000);
-	 
-		return () => clearInterval(timerID);
-	  });
-	
 	// TODO => ADD RELATIONSHIPS
 	return (
 		<div className='w-full px-10 min-h-[40vh]'>
@@ -36,7 +24,7 @@ const Cards = ({transactiondata}) => {
 			<div className='w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-start mb-20'>
 				{!loading &&
 					data?.transactions?.map((transaction) => (
-						<Card key={transaction._id} transaction={transaction} authUser={authUser.authUser}/>
+						<Card key={transaction._id} transaction={transaction} authUser={authUser.authUser} />
 					))}
 			</div>
 			{!loading && data?.transactions?.length === 0 && (

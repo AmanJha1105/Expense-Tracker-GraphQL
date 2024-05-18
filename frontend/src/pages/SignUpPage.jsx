@@ -14,9 +14,23 @@ const SignUpPage = () => {
 		gender: "",
 	});
 
-	const [signup,{loading}]=useMutation(SIGN_UP,{
+	const [signup, { loading }] = useMutation(SIGN_UP, {
 		refetchQueries: ["GetAuthenticatedUser"],
 	});
+
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		try {
+			await signup({
+				variables: {
+					input: signUpData,
+				},
+			});
+		} catch (error) {
+			console.error("Error:", error);
+			toast.error(error.message);
+		}
+	};
 
 	const handleChange = (e) => {
 		const { name, value, type } = e.target;
@@ -31,20 +45,6 @@ const SignUpPage = () => {
 				...prevData,
 				[name]: value,
 			}));
-		}
-	};
-
-	const handleSubmit = async (e) => {
-		e.preventDefault();
-		try {
-			await signup({
-				variables:{
-					input:signUpData
-				}
-			})
-		} catch (error) {
-			console.error("Error:",error);
-			toast.error(error.message);
 		}
 	};
 

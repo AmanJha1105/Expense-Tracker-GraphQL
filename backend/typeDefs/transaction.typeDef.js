@@ -1,26 +1,26 @@
-const transactionTypeDef= `#graphql
+const transactionTypeDef = `#graphql
   type Transaction {
-    _id:ID!
+    _id: ID!
     userId: ID!
-    description:String!
+    description: String!
     paymentType: String!
-    category:String!
-    amount:Float!
-    location:String
+    category: String!
+    amount: Float!
+    location: String
     date: String!
-    user:User!
+    user: User!
   }
 
   type Query {
-    transactions :[Transaction!]
+    transactions: [Transaction!]
     transaction(transactionId:ID!): Transaction
     categoryStatistics: [CategoryStatistics!]
   }
 
   type Mutation {
-    createTransaction(input:CreateTransactionInput!):Transaction
-    updateTransaction(input:UpdateTransactionInput!):Transaction
-    deleteTransaction(transactionId:ID!) :Transaction!
+    createTransaction(input: CreateTransactionInput!): Transaction!
+    updateTransaction(input: UpdateTransactionInput!): Transaction!
+    deleteTransaction(transactionId:ID!): Transaction!
   }
 
   type CategoryStatistics {
@@ -29,22 +29,23 @@ const transactionTypeDef= `#graphql
   }
 
   input CreateTransactionInput {
-    description:String!
+    description: String!
     paymentType: String!
-    category:String!
-    amount:Float!
+    category: String!
+    amount: Float!
     date: String!
-    location:String
+    location: String
   }
 
   input UpdateTransactionInput {
-    transactionId:ID!
-    description:String
+    transactionId: ID!
+    description: String
     paymentType: String
-    category:String
-    amount:Float
+    category: String
+    amount: Float
+    location: String
     date: String
-    location:String
   }
-`
+`;
+
 export default transactionTypeDef;

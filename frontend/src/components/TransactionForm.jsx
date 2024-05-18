@@ -1,12 +1,12 @@
 import { useMutation } from "@apollo/client";
-import { CREATE_TRANSACTION } from "../graphql/mutations/transaction.mutation.js";
+import { CREATE_TRANSACTION } from "../graphql/mutations/transcation.mutation";
 import toast from "react-hot-toast";
 
 const TransactionForm = () => {
 
-	const [createTransaction,{loading}]=useMutation(CREATE_TRANSACTION,{
-		refetchQueries: ["GetTransactions","GetTransactionStatistics"],
-	})
+	const [createTransaction, { loading }] = useMutation(CREATE_TRANSACTION, {
+		refetchQueries: ["GetTransactions", "GetTransactionStatistics"],
+	});
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -23,13 +23,12 @@ const TransactionForm = () => {
 		};
 
 		try {
-			await createTransaction({variables: {input: transactionData}});
-			 
+			await createTransaction({ variables: { input: transactionData } });
+
 			form.reset();
 			toast.success("Transaction created successfully");
-
 		} catch (error) {
-			toast.error("Failed to create transaction");
+			toast.error(error.message);
 		}
 	};
 
@@ -143,7 +142,7 @@ const TransactionForm = () => {
 						id='location'
 						name='location'
 						type='text'
-						placeholder='New Delhi'
+						placeholder='New York'
 					/>
 				</div>
 

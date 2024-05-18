@@ -2,21 +2,22 @@ import { useMutation, useQuery } from "@apollo/client";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { GET_TRANSACTION, GET_TRANSACTION_STATISTICS } from "../graphql/queries/transaction.query";
-import { UPDATE_TRANSACTION } from "../graphql/mutations/transaction.mutation";
+import { UPDATE_TRANSACTION } from "../graphql/mutations/transcation.mutation";
 import toast from "react-hot-toast";
 import TransactionFormSkeleton from "../components/skeletons/TransactionFormSkeleton";
 
 const TransactionPage = () => {
-
-	const {id}= useParams();
-	const {loading,data}=useQuery(GET_TRANSACTION,{
-		variables: {id: id}
+	const { id } = useParams();
+	const { loading, data } = useQuery(GET_TRANSACTION, {
+		variables: { id: id },
 	});
 
-	const [updateTransaction,{loading:loadingUpdate}]=useMutation(UPDATE_TRANSACTION,{
-		refetchQueries: [{query:GET_TRANSACTION_STATISTICS}],
-	})
+	console.log("Transaction", data);
 
+	const [updateTransaction, { loading: loadingUpdate }] = useMutation(UPDATE_TRANSACTION, {
+		// https://github.com/apollographql/apollo-client/issues/5419 => refetchQueries is not working, and here is how we fixed it
+		refetchQueries: [{ query: GET_TRANSACTION_STATISTICS }],
+	});
 
 	const [formData, setFormData] = useState({
 		description: data?.transaction?.description || "",
@@ -29,22 +30,24 @@ const TransactionPage = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		const amount = parseFloat(formData.amount); //because by default amount will be string and it is cominf from input field so convert to number
-        try {
+		const amount = parseFloat(formData.amount); // convert amount to number bc by default it is string
+		// and the reason it's coming from an input field
+		try {
 			await updateTransaction({
 				variables: {
 					input: {
 						...formData,
 						amount,
-                        transactionId : id
-					}
-				}
-			})
+						transactionId: id,
+					},
+				},
+			});
 			toast.success("Transaction updated successfully");
 		} catch (error) {
-			toast.error("Failed to update transaction",error.message);
+			toast.error(error.message);
 		}
 	};
+
 	const handleInputChange = (e) => {
 		const { name, value } = e.target;
 		setFormData((prevFormData) => ({
